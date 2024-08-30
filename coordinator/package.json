@@ -1,0 +1,17 @@
+{
+  "name": "coordinator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc -b && node ./dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "axios": "^1.7.3",
+    "express": "^4.19.2"
+  }
+}
