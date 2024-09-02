@@ -21,6 +21,50 @@ export const getUserByPhone = async (phone:string) =>{
     }
 }
 
+export const getAccount = async ()=>{
+    const userId = cookies().get("id")?.value
+    if(userId){
+        try {
+            const account  = await prisma.user.findUnique({
+                where:{
+                    id:userId
+                },
+                select:{
+                    name:true,
+                    account:true
+                }
+            })
+            if(account){
+                return account
+            }
+            else{
+                return null;
+            }
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    }
+    else{
+        return null
+    }
+   
+}
+
+export const getAccountByPhone = async (phone:string) =>{
+    try {
+        const account = await prisma.account.findUnique({where:{userPhone:phone}})
+        if(account){
+            return account
+        }else{
+            return null
+        }
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
 export const logout = async () =>{
     cookies().delete("id")
 }

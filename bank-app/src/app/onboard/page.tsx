@@ -7,7 +7,6 @@ type Props = {}
 const page = (props: Props) => {
   return (
     <div className='w-screen h-screen'>
-        <Navbar/>
         <div className='w-screen h-[90vh] flex justify-center items-center'>
         <OnboardForm/> 
         </div>
