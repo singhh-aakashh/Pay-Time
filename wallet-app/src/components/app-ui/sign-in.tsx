@@ -27,25 +27,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { signupSchema } from "@/lib/types";
-import { signup } from "@/actions/signup";
+import { signinSchema } from "@/lib/types";
+import { signin } from "@/actions/signin";
 
-export function SignUp() {
+export function SignIn() {
   const router = useRouter();
   const { toast } = useToast();
   const [isDisable, setIsDisable] = useState<boolean>(false);
-  const form = useForm<z.infer<typeof signupSchema>>({
-    resolver: zodResolver(signupSchema),
+  const form = useForm<z.infer<typeof signinSchema>>({
+    resolver: zodResolver(signinSchema),
     defaultValues: {
-      name: "",
       phone: "",
       password: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof signupSchema>) {
+  async function onSubmit(values: z.infer<typeof signinSchema>) {
     setIsDisable(true);
-    const res = await signup(values);
+    const res = await signin(values);
     if (res) {
       toast({ title: res.msg });
     }
@@ -58,7 +57,7 @@ export function SignUp() {
     <Card className="w-[400px]">
       <CardHeader>
         <CardTitle className="text-center text-3xl">
-          Sign up
+         Sign in
         </CardTitle>
         <CardDescription className="text-center text-xl">
           On board to create a bank account.
@@ -67,27 +66,6 @@ export function SignUp() {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xl">Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Aakash"
-                        disabled={isDisable}
-                        type="text"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      This is your public display name.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             <FormField
               control={form.control}
               name="phone"
@@ -133,14 +111,12 @@ export function SignUp() {
         </Form>
       </CardContent>
       <CardFooter className="flex justify-center">
-     
           <div>
-            Already have an account ?
-            <Button variant={"link"} onClick={() => router.push("/sign-in")}>
-              Signin
+            New to this ?
+            <Button variant={"link"} onClick={() => router.push("/sign-up")}>
+              Sign up
             </Button>
           </div>
-       
       </CardFooter>
     </Card>
   );

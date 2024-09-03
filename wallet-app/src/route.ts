@@ -1,0 +1,1 @@
+export const publicRoute = ["/","/sign-up","/sign-in"]

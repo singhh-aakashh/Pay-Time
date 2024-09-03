@@ -1,4 +1,5 @@
 import SideNavbar from "@/components/app-ui/side-navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function RootLayout({
     children,
@@ -11,8 +12,11 @@ export default function RootLayout({
           <SideNavbar/>
           </div>
           <div className="w-[80%] h-screen">
+          <div className='p-4 w-full h-full'>
           {children}
           </div>
+          </div>
+          <Toaster/>
         </div>             
     );
   }

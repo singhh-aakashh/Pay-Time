@@ -2,27 +2,27 @@ import prisma from "@/lib/db";
 import { NextRequest } from "next/server";
 
 export async function POST(req:NextRequest){
-    const {accountId,amount} = await req.json()
-    if(accountId){
+    const {walletId,amount} = await req.json();
+    if(walletId){
         try {
-            const bank = await prisma.account.update({
+            const wallet = await prisma.wallet.update({
                 where:{
-                    userPhone:accountId
+                    userPhone:walletId
                 },
                 data:{
                     balance:{
-                        increment:Number(amount)
+                        decrement:Number(amount)
                     }
                 }
             })
-            return Response.json({status:"success",bank})
+            return Response.json({status:"success",wallet})
         } catch (error) {
             console.log(error)
             return Response.json({status:"failed"})
         }
     }
     else{
-        console.log("accountId is not present in req ")
+        console.log("walletId is not present in body")
         return Response.json({status:"failed"})
     }
 }

@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
   Card,
@@ -9,24 +9,36 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import Title from '@/components/app-ui/title'
+import CardWrapper from '@/components/app-ui/card-wrapper'
+import { getUser } from '@/lib/data'
 type Props = {}
 
 const page = (props: Props) => {
+  const [user,setUser] = useState<any>()
+  useEffect(()=>{
+    const fetch = async () =>{
+      const res = await getUser();
+      if(res){
+        setUser(res)
+      }
+    }
+    fetch();
+  },[])
   return (
-    <div className='p-4 w-full h-full'>
-      <div className=' h-16 '>
-    <h1 className='text-3xl font-medium '>Dashboard</h1>
-      </div>
-      <Card className=' h-[85vh] flex p-8'>
+   <>
+    <Title title='Dashboard'/>
+    <CardWrapper>
       <Card className='w-[400px] h-[200px]'>
       <CardHeader>
-      <CardTitle>Wallet Balance</CardTitle>
+      <CardTitle className='flex justify-between'>Wallet Balance  <span>{user?.name}</span></CardTitle>
     <CardDescription>Card Description</CardDescription>
   </CardHeader>
+  <CardContent>{user?.wallet?.balance}</CardContent>
       </Card>
-      </Card>
+      </CardWrapper>
       page
-      </div>
+      </>
   )
 }
 

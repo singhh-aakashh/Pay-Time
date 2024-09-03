@@ -14,8 +14,7 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
+  id     String @id @default(uuid())
   password  String
   phone String?    @unique
   name  String?
@@ -23,7 +22,7 @@ model User {
 }
 
 model Wallet{
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   userPhone String @unique
   user  User @relation(fields: [userPhone],references: [phone])
   balance Int @default(0)
@@ -31,8 +30,8 @@ model Wallet{
 }
 
 model Transaction{
-  id Int @id @default(autoincrement())
-  walletId Int
+  id String @id @default(uuid())
+  walletId String
   wallet Wallet @relation(fields: [walletId],references: [id])
   amaount  Int
   type  TYPE
