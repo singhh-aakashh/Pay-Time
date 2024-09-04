@@ -11,7 +11,6 @@ export default function middleware(req:NextRequest){
         return Response.redirect(new URL("/onboard",nextUrl))
     }
 
-    
 }
 export const config = {
     matcher: [

@@ -47,6 +47,22 @@ export const getUser = async () =>{
     }
 }
 
+export const getUserPhone = async () =>{
+    const userId = cookies().get("id")?.value
+    if(userId){
+        const user = await prisma.user.findFirst({where:{id:userId}})
+        if(user){
+            return user.phone
+        }
+        else{
+            return null
+        }
+    }
+    else{
+        return null;
+    }
+}
+
 export const getUserName = async () =>{
     const userId = cookies().get("id")?.value
     if(userId){

@@ -14,3 +14,11 @@ export const signinSchema = z.object({
       }),
       password:z.string().min(4)
 })
+
+export const transactionSchema = z.object({
+  transactionType: z.string(),
+  amount:z.string().regex(/^\d+$/),
+  phone:z.string().regex(/^\d{10}$/, {
+    message: "Phone number must be exactly 10 digits and contain only numbers.",
+  })
+})

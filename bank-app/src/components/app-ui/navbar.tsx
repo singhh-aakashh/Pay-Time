@@ -15,7 +15,7 @@ const Navbar = ({signedIn}:{signedIn:boolean}) => {
     router.push("/onboard")
   }
   return (
-    <div className='w-screen h-14 p-5 flex items-center mb-5'>
+    <div className='w-screen h-14 p-5 flex items-center mb-5 border border-b-2 border-neutral-700'>
         <div className='flex w-[20%] justify-start text-2xl'>
             Banki
         </div>

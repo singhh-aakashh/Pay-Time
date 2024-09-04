@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { boolean, z } from "zod"
  
 import { toast, useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
@@ -28,34 +28,29 @@ import {
 import CardWrapper from '@/components/app-ui/card-wrapper'
 import Title from '@/components/app-ui/title'
 import { Card, CardContent } from '@/components/ui/card'
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from "@/components/ui/input"
+import { transactionSchema } from "@/lib/types"
+import { transaction } from "@/actions/transaction"
 
 type Props = {}
-const FormSchema = z.object({
-    transactionType: z.string(),
-    amount:z.string().regex(/^\d+$/),
-    phone:z.string().regex(/^\d{10}$/, {
-      message: "Phone number must be exactly 10 digits and contain only numbers.",
-    })
-})
+
 
 const page = (props: Props) => {
-    const {toast} = useToast();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const [isDisable,setIsDisable]= useState<boolean>(false)
+  const {toast} = useToast()
+  const form = useForm<z.infer<typeof transactionSchema>>({
+    resolver: zodResolver(transactionSchema),
 
   })
  
-  function onSubmit(values: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
-    })
+ async function onSubmit(values: z.infer<typeof transactionSchema>) {
+    setIsDisable(true)
+      const res = await transaction(values)
+      if(res){
+        toast({title:JSON.stringify(res)})
+      }
+      setIsDisable(false)
   }
  
 
@@ -128,7 +123,7 @@ const page = (props: Props) => {
                 </FormItem>
               )}
             />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isDisable }>Submit</Button>
       </form>
     </Form>
     </CardContent>
