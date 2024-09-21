@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { boolean, z } from "zod"
  
-import { toast, useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -31,7 +31,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import React, { useState } from 'react'
 import { Input } from "@/components/ui/input"
 import { transactionSchema } from "@/lib/types"
-import { transaction } from "@/actions/transaction"
+import { bankTransaction } from "@/actions/bankTransaction"
 
 type Props = {}
 
@@ -46,10 +46,11 @@ const page = (props: Props) => {
  
  async function onSubmit(values: z.infer<typeof transactionSchema>) {
     setIsDisable(true)
-      const res = await transaction(values)
+      const res = await bankTransaction(values)
       if(res){
         toast({title:JSON.stringify(res)})
       }
+      // console.log(values)
       setIsDisable(false)
   }
  
@@ -104,6 +105,25 @@ const page = (props: Props) => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="to"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-xl">To</FormLabel>
+                  <FormControl>
+                    <Input
+                    type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+               Enter the recipient name here.
+              </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
          <FormField
               control={form.control}
               name="amount"
@@ -123,7 +143,7 @@ const page = (props: Props) => {
                 </FormItem>
               )}
             />
-        <Button type="submit" disabled={isDisable }>Submit</Button>
+        <Button type="submit" disabled={isDisable }>Pay</Button>
       </form>
     </Form>
     </CardContent>

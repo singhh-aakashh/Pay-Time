@@ -31,7 +31,11 @@ export const getUser = async () =>{
             id:userId
         },
         include:{
-            wallet:true
+            wallet:{
+                include:{
+                    transaction:true
+                }
+            }
         }
     })
     if(user){
@@ -50,7 +54,11 @@ export const getUser = async () =>{
 export const getUserPhone = async () =>{
     const userId = cookies().get("id")?.value
     if(userId){
-        const user = await prisma.user.findFirst({where:{id:userId}})
+        const user = await prisma.user.findFirst({
+            where:{
+                id:userId
+            }
+        })
         if(user){
             return user.phone
         }

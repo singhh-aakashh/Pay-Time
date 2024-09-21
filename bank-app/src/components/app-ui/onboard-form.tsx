@@ -50,7 +50,7 @@ export function OnboardForm() {
     if (res) {
       toast({ title: res.msg });
     }
-    if (res.status === "success") {
+    if (res?.status === "success") {
       router.push("/dashboard");
     }
     setIsDisable(false);

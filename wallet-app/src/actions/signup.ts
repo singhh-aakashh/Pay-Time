@@ -25,6 +25,7 @@ export async function signup(values: z.infer<typeof signupSchema>) {
           },
         });
         cookies().set("id", newUser.id);
+        cookies().set("userPhone", newUser.phone)
         return { status: "success", msg: "User created successfully" };
       }
     } catch (error) {

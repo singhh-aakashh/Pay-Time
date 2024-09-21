@@ -2,7 +2,7 @@ import prisma from "@/lib/db";
 import { NextRequest } from "next/server";
 
 export async function POST(req:NextRequest){
-    const {walletId,amount,to} = await req.json();
+    const {walletId , amount , to} = await req.json();
     if(walletId){
         try {
             const wallet = await prisma.wallet.update({
@@ -11,26 +11,32 @@ export async function POST(req:NextRequest){
                 },
                 data:{
                     balance:{
-                        decrement:Number(amount)
+                        increment:Number(amount)
                     },
                     transaction:{
                         create:{
                             amaount:Number(amount),
                             status:"Fulfilled",
-                            to,
-                            type:"Sent"
+                            type:"Received",
+                            to
                         }
                     }
                 }
             })
-            return Response.json({status:"success",wallet})
+            if(wallet){
+                return Response.json({status:"success",balance:wallet.balance})
+            }
+            else{
+                console.log("wallet with this wallet id is not present")
+                return Response.json({status:"failed"})
+            }
         } catch (error) {
             console.log(error)
             return Response.json({status:"failed"})
         }
     }
     else{
-        console.log("walletId is not present in body")
+        console.log("wallet id is not present in body")
         return Response.json({status:"failed"})
     }
 }

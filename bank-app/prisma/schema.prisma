@@ -29,15 +29,24 @@ model Account{
   transaction  Transaction[]
 }
 
+
 model Transaction{
   id String @id @default(uuid())
   amount Int
+  to    String
   type   TYPE
+  status STATUS
   accountId   String
   account  Account @relation(fields: [accountId],references: [id])
+  date   DateTime @default(now())
 }
 
 enum TYPE{
   SEND 
   RECEIVED
+}
+
+enum STATUS{
+  Fulfilled
+  Declined
 }

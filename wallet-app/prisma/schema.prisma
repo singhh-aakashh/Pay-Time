@@ -16,7 +16,7 @@ datasource db {
 model User {
   id     String @id @default(uuid())
   password  String
-  phone String?    @unique
+  phone String    @unique
   name  String?
   wallet  Wallet?
 }
@@ -34,13 +34,21 @@ model Transaction{
   walletId String
   wallet Wallet @relation(fields: [walletId],references: [id])
   amaount  Int
+  to   String
   type  TYPE
+  status  STATUS
+
+  date    DateTime @default(now())
 }
 
+enum STATUS{
+  Fulfilled
+  Declined
+}
 
 enum TYPE{
-  SENT
-  RECEIVED
+  Sent
+  Received
 }
 
 
